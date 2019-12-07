@@ -1,0 +1,69 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.a*; *.src)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt)
+ pExt (*.plm)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (Target 1), 0x0000 // Tools: 'MCS-51'
+GRPOPT 1,(Source Group 1),1,0,0
+
+OPTFFF 1,1,1,0,0,45,45,0,<.\Directory_Functions_struct.c><Directory_Functions_struct.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,78,0,0,0,78,0,0,0,72,4,0,0,216,1,0,0 }
+OPTFFF 1,2,1,0,0,0,0,0,<.\I2C.c><I2C.c> 
+OPTFFF 1,3,1,0,0,0,0,0,<.\LCD_hardware_functions.c><LCD_hardware_functions.c> 
+OPTFFF 1,4,1,0,0,0,0,0,<.\LCD_routines.c><LCD_routines.c> 
+OPTFFF 1,5,1,0,0,0,0,0,<.\Long_Serial_In.c><Long_Serial_In.c> 
+OPTFFF 1,6,1,0,0,0,0,0,<.\Outputs.c><Outputs.c> 
+OPTFFF 1,7,1,0,0,0,0,0,<.\print_bytes.c><print_bytes.c> 
+OPTFFF 1,8,1,0,0,1,12,0,<.\Read_Sector.c><Read_Sector.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,26,0,0,0,26,0,0,0,72,4,0,0,66,1,0,0 }
+OPTFFF 1,9,1,0,0,112,128,0,<.\SD_card_test.c><SD_card_test.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,42,4,0,0,186,1,0,0 }
+OPTFFF 1,10,5,0,0,1,1,0,<.\STA013.h><STA013.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,104,0,0,0,104,0,0,0,150,4,0,0,144,1,0,0 }
+OPTFFF 1,11,1,0,0,9,14,0,<.\STA013.c><STA013.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,78,0,0,0,78,0,0,0,124,4,0,0,118,1,0,0 }
+OPTFFF 1,12,1,0,0,0,0,0,<.\Timer0_hardware_delay_1ms.c><Timer0_hardware_delay_1ms.c> 
+OPTFFF 1,13,1,0,0,0,0,0,<.\UART.c><UART.c> 
+OPTFFF 1,14,5,0,0,0,0,0,<.\AT89C51RC2.h><AT89C51RC2.h> 
+OPTFFF 1,15,5,0,0,0,0,0,<.\Directory_Functions_struct.h><Directory_Functions_struct.h> 
+OPTFFF 1,16,5,0,0,0,0,0,<.\File_System.h><File_System.h> 
+OPTFFF 1,17,5,0,0,1,11,0,<.\I2C.h><I2C.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,130,0,0,0,130,0,0,0,176,4,0,0,170,1,0,0 }
+OPTFFF 1,18,5,0,0,1,1,0,<.\LCD_hardware_functions.h><LCD_hardware_functions.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,0,0,0,0,0,0,0,0,46,4,0,0,40,1,0,0 }
+OPTFFF 1,19,5,0,0,0,0,0,<.\LCD_Routines.h><LCD_Routines.h> 
+OPTFFF 1,20,5,0,0,0,0,0,<.\Long_Serial_In.h><Long_Serial_In.h> 
+OPTFFF 1,21,5,0,0,0,0,0,<.\Main.h><Main.h> 
+OPTFFF 1,22,5,0,0,0,0,0,<.\Outputs.h><Outputs.h> 
+OPTFFF 1,23,5,0,0,0,0,0,<.\PORT.H><PORT.H> 
+OPTFFF 1,24,5,0,0,0,0,0,<.\print_bytes.h><print_bytes.h> 
+OPTFFF 1,25,5,0,0,1,12,0,<.\Read_Sector.h><Read_Sector.h> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,98,4,0,0,92,1,0,0 }
+OPTFFF 1,26,5,0,0,0,0,0,<.\Timer0_hardware_delay_1ms.h><Timer0_hardware_delay_1ms.h> 
+OPTFFF 1,27,5,0,0,0,0,0,<.\UART.h><UART.h> 
+OPTFFF 1,28,1,0,0,0,0,0,<.\LED_Control.c><LED_Control.c> 
+OPTFFF 1,29,1,0,0,0,0,0,<.\SDCard.c><SDCard.c> 
+OPTFFF 1,30,1,0,0,0,0,0,<.\SPI.c><SPI.c> 
+OPTFFF 1,31,2,0,0,0,0,0,<.\config.asm><config.asm> 
+
+ExtF <.\LCD_hardware_functions.h> 1,1,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,0,0,0,0,0,0,0,0,46,4,0,0,40,1,0,0 }
+ExtF <.\Read_Sector.h> 1,12,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,98,4,0,0,92,1,0,0 }
+ExtF <.\STA013.h> 1,1,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,104,0,0,0,104,0,0,0,150,4,0,0,144,1,0,0 }
+ExtF <.\I2C.h> 1,11,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,130,0,0,0,130,0,0,0,176,4,0,0,170,1,0,0 }
+
+TARGOPT 1, (Target 1)
+ CLK51=24000000
+  OPTTT 0,1,1,0
+  OPTHX 0,65535,0,0,0
+  OPTLX 120,65,8,<.\>
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTBL 0,(Data Sheet)<DATASHTS\ATMEL\DOC1012.PDF>
+  OPTBL 1,(Add on databooks)<DATASHTS\ADDBOOKS.PDF>
+  OPTBL 2,(Instruction Set Manual)<DATASHTS\ATMEL\DOC0509.PDF>
+  OPTDL (S8051.DLL)()(DP51.DLL)(-p51R)(S8051.DLL)()(TP51.DLL)(-p51R)
+  OPTDBG 509,0,()()()()()()()()()() ()()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
