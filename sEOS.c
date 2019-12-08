@@ -6,7 +6,7 @@
 
 #include "sEOS.h"
 #include "PORT.h"
-#include "main.h"
+#include "Main.h"
 
 void sEOS_init(uint8_t interval) {
     uint16_t reload_16;

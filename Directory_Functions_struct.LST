@@ -1,4 +1,4 @@
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 1   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 1   
 
 
 C51 COMPILER V6.02, COMPILATION OF MODULE DIRECTORY_FUNCTIONS_STRUCT
@@ -62,7 +62,7 @@ stmt level    source
   53   2      		return_value|=temp;
   54   2      	}
   55   1      	return return_value;
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 2   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 2   
 
   56   1      }
   57          
@@ -126,7 +126,7 @@ stmt level    source
  115   5      			  printf("%5d. ",entries);  // print entry number with a fixed width specifier
  116   5      		      for(j=0;j<8;j++)
  117   5      			  {
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 3   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 3   
 
  118   6      			     out_val=read8(i+j,values);   // print the 8 byte name
  119   6      			     putchar(out_val);
@@ -190,7 +190,7 @@ stmt level    source
  177                but locates a specified entry and returns and cluster  
  178          INPUT: Starting Sector of the directory, an entry number and a pointer to a 
  179          block of memory in xdata that can be used to read blocks from the SD card
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 4   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 4   
 
  180          RETURNS: uint32_t with cluster in lower 28 bits.  Bit 28 set if this is 
  181                   a directory entry, clear for a file.  Bit 31 set for error.
@@ -254,7 +254,7 @@ stmt level    source
  239   4      			  Sector++;
  240   4      			  if((Sector-Sector_num)<max_sectors)
  241   4      			  {
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 5   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 5   
 
  242   5                       error_flag=Read_Sector(Sector,Drive_values.BytesPerSec,values);
  243   5      			     if(error_flag!=no_errors)
@@ -318,7 +318,7 @@ stmt level    source
  301   2      		if((temp_8!=0xEB)&&(temp_8!=0xE9))
  302   2      		{
  303   3      			printf("Error BPB not Found!\r\n");
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 6   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 6   
 
  304   3      		}
  305   2      		else
@@ -382,7 +382,7 @@ stmt level    source
  362   1      	DataSec = (TotSec - (RsvdSectorCount + ((NumFATS * FATSz) + Drive_values.RootDirSecs)));
  363   1      	
  364   1      	//Calculates CountofClus to use for determining FATtype
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 7   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 7   
 
  365   1      	CountofClus = DataSec / Drive_values.SecPerClus;
  366   1      
@@ -446,7 +446,7 @@ stmt level    source
  424   3      			sector_num = first_sec_num;
  425   3      			while(sector_num!=Drive_values.SecPerClus+first_sec_num)
  426   3      			{
-C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/06/2019 17:58:43 PAGE 8   
+C51 COMPILER V6.02  DIRECTORY_FUNCTIONS_STRUCT                                             12/07/2019 23:59:07 PAGE 8   
 
  427   4      				error_flag = Read_Sector(sector_num,Drive_values.BytesPerSec, array_in);
  428   4      				printf("Cluster # = %lx ,Sector # = %lx\r\n", Cluster, sector_num);

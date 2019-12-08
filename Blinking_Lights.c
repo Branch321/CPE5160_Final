@@ -25,7 +25,7 @@ void set_lights(uint8_t light_config) {
 	P2 = light_config|0x0F;
 }
 
-void blinking_lights_isr(void) interrupt TIMER_2_OVERFLOW {
+void blinking_lights_isr(void) interrupt Timer_2_Overflow {
 	TF2=0; // clear flag
 
 	// grab addresses of buttons

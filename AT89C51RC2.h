@@ -180,7 +180,6 @@ sbit T2EX    = P1^1;
 sbit T2      = P1^0;
 
 /*  P2  */
-/*
 sbit AD15  = P2^7;
 sbit AD14  = P2^6;
 sbit AD13  = P2^5;
@@ -189,7 +188,7 @@ sbit AD11  = P2^3;
 sbit AD10  = P2^2;
 sbit AD9   = P2^1;
 sbit AD8   = P2^0;
-*/
+
 /*  P3  */
 sbit nRD   = P3^7;
 sbit nWR   = P3^6;

@@ -17,8 +17,9 @@
 #include "LED_Control.h"
 #include "Directory_Functions_struct.h"
 #include "Read_Sector.h"
-#include "STA013.h"
 #include <stdio.h>
+#include "sEOS.h"
+
 
 uint8_t code SD_start[]="SD Card Init...";
 uint8_t code SDSC[]="Std. Capacity";
@@ -47,6 +48,7 @@ main()
    {
        CKCON0=0x00;  // set standard clock mode
    }
+   
    P2_set_bit(0x0F);  // sets lower four bits of port 2 for switch inputs.
    LEDS_OFF(Amber_LED|Yellow_LED|Green_LED);
    LEDS_ON(Red_LED);
@@ -55,8 +57,7 @@ main()
    LEDS_OFF(Red_LED);
    uart_init(9600);
    LCD_Init();
-   STA013_init();
-
+   //sEOS_init(12);
    printf("SD Card Test Program\n\r\n\n");
    LCD_Print(line1,0,SD_start);   
    error_flag=SPI_Master_Init(400000UL);
@@ -113,11 +114,11 @@ main()
 
 	  LEDS_ON(Green_LED);
 	  cluster_num = Read_Dir_Entry(current_directory_sector, block_num, buf1);
-	  if((cluster_num&directory_bit)!=0) // directory mask
+	  if((cluster_num &directory_bit)!=0) // directory mask
 	  {
-	  	  printf("Entry is a directory...Opening now...\r\n");
+	  	   printf("Entry is a directory...Opening now...\r\n");
 	      cluster_num &= 0x0FFFFFFF;
-          current_directory_sector = First_Sector(cluster_num);
+         current_directory_sector = First_Sector(cluster_num);
 	  }
 	  else // if entry is a file
 	  {
