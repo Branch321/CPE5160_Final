@@ -19,11 +19,13 @@
 #include "Read_Sector.h"
 #include <stdio.h>
 #include "sEOS.h"
-
+#include "STA013.h"
+#include "MP3.h"
 
 uint8_t code SD_start[]="SD Card Init...";
 uint8_t code SDSC[]="Std. Capacity";
 uint8_t code SDHC[]="High Capacity";
+
 
 xdata uint8_t buf1[512];
 xdata uint8_t buf2[512];
@@ -56,8 +58,13 @@ main()
    while(i<=60000) i++;
    LEDS_OFF(Red_LED);
    uart_init(9600);
+   printf("Done initalizing uart!\r\n");
    LCD_Init();
-   //sEOS_init(12);
+   printf("Done initalizing LCD!\r\n");
+   STA013_init();
+   printf("Done initalizing STA013!\r\n");
+
+
    printf("SD Card Test Program\n\r\n\n");
    LCD_Print(line1,0,SD_start);   
    error_flag=SPI_Master_Init(400000UL);
@@ -116,15 +123,17 @@ main()
 	  cluster_num = Read_Dir_Entry(current_directory_sector, block_num, buf1);
 	  if((cluster_num &directory_bit)!=0) // directory mask
 	  {
-	  	   printf("Entry is a directory...Opening now...\r\n");
+	  	  printf("Entry is a directory...Opening now...\r\n");
 	      cluster_num &= 0x0FFFFFFF;
-         current_directory_sector = First_Sector(cluster_num);
+          current_directory_sector = First_Sector(cluster_num);
 	  }
 	  else // if entry is a file
 	  {
 	  	   printf("Entry is a file...Opening now...\r\n");
 	  	   cluster_num &= 0x0FFFFFFF;
-	      Open_File(cluster_num, buf2);
+	      //Open_File(cluster_num, buf2); this needs to be gotten rid of
+		  Play_MP3_file(cluster_num);
+		  
 	  }
    }
 } 

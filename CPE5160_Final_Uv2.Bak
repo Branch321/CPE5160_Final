@@ -41,7 +41,6 @@ File 1,2,<.\config.asm><config.asm>
 File 1,5,<.\I2C.h><I2C.h>
 File 1,5,<.\STA013.h><STA013.h>
 File 1,5,<.\MP3.h><MP3.h>
-File 1,1,<.\MP3.c><MP3.c>
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -60,7 +59,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib ()
  EnvReg (ÿAtmel\)
  OrgReg (ÿAtmel\)
- TgStat=3
+ TgStat=0
  OutDir (.\)
  OutName (CPE5160_Final)
  GenApp=1

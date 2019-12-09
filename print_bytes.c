@@ -13,6 +13,7 @@ INPUT: Pointer to an array of eight bytes
 RETURNS: nothing
 CAUTION: 
 ************************************************************************/
+/*
 void print_16bytes(uint8_t * array_in_p)
 {
    uint8_t * input_p;
@@ -33,7 +34,7 @@ void print_16bytes(uint8_t * array_in_p)
    UART_Transmit(CR);
    UART_Transmit(LF);
 }
-
+*/
 
 /***********************************************************************
 DESC: Prints an array from memory in Hexadecimal and then ASCII
@@ -41,6 +42,7 @@ INPUT: Pointer to an array, number of bytes to print
 RETURNS: nothing
 CAUTION: 
 ************************************************************************/
+/*
 void print_memory(uint8_t * array_in_p, uint16_t number_of_bytes)
 {
    uint8_t * input_p;
@@ -56,4 +58,4 @@ void print_memory(uint8_t * array_in_p, uint16_t number_of_bytes)
       input_p+=16;
    }while(input_p<(array_in_p+number_of_bytes));
 }
-		
+*/		

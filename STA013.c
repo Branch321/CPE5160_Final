@@ -25,9 +25,7 @@ uint8_t STA013_init(void)
 		index--;
 	}while((return_value!=no_errors)&&(index!=0));
 	printf("Received Value = %2.2bX\n\r",recv_array[0]);
-	return return_value;
 
-/* // Read and Send of each config file
 	printf("--------------------Config 1 Go!!!!--------------------\r\n");
 	STA013_config(0x43, &CONFIG);
     Timer0_DELAY_1ms(1000);
@@ -36,7 +34,6 @@ uint8_t STA013_init(void)
     Timer0_DELAY_1ms(1000);  
 	printf("Finished Init...\r\n");
 	return return_value;
-	*/
 }
 
 

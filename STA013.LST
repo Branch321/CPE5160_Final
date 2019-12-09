@@ -1,4 +1,4 @@
-C51 COMPILER V6.02  STA013                                                                 12/06/2019 17:58:46 PAGE 1   
+C51 COMPILER V6.02  STA013                                                                 12/08/2019 19:04:44 PAGE 1   
 
 
 C51 COMPILER V6.02, COMPILATION OF MODULE STA013
@@ -34,53 +34,50 @@ stmt level    source
   25   2      		index--;
   26   2      	}while((return_value!=no_errors)&&(index!=0));
   27   1      	printf("Received Value = %2.2bX\n\r",recv_array[0]);
-  28   1      	return return_value;
-  29   1      
-  30   1      /* // Read and Send of each config file
-  31   1      	printf("--------------------Config 1 Go!!!!--------------------\r\n");
-  32   1      	STA013_config(0x43, &CONFIG);
-  33   1          Timer0_DELAY_1ms(1000);
-  34   1      	printf("--------------------Config 2 Go!!!!--------------------\r\n");
-  35   1          STA013_config(0x43, &CONFIG2);
-  36   1          Timer0_DELAY_1ms(1000);  
-  37   1      	printf("Finished Init...\r\n");
-  38   1      	return return_value;
-  39   1      	*/
-  40   1      }
-  41          
-  42          
-  43          uint8_t STA013_config(uint8_t device_addr, uint8_t * config_array)
-  44          {
-  45   1          uint8_t send_array[1];
-  46   1      	uint8_t recv_array[1];
-  47   1          uint8_t internal_addr; // address fro config file
-  48   1      	uint8_t timeout;
-  49   1      	uint8_t status; // variable to hold error
-  50   1          uint16_t index = 0;
-  51   1          
-  52   1          do 
-  53   1      	{
-  54   2              timeout = 50; // simple timeout
-  55   2              internal_addr = config_array[index];
-C51 COMPILER V6.02  STA013                                                                 12/06/2019 17:58:46 PAGE 2   
+  28   1      
+  29   1      	printf("--------------------Config 1 Go!!!!--------------------\r\n");
+  30   1      	STA013_config(0x43, &CONFIG);
+  31   1          Timer0_DELAY_1ms(1000);
+  32   1      	printf("--------------------Config 2 Go!!!!--------------------\r\n");
+  33   1          STA013_config(0x43, &CONFIG2);
+  34   1          Timer0_DELAY_1ms(1000);  
+  35   1      	printf("Finished Init...\r\n");
+  36   1      	return return_value;
+  37   1      }
+  38          
+  39          
+  40          uint8_t STA013_config(uint8_t device_addr, uint8_t * config_array)
+  41          {
+  42   1          uint8_t send_array[1];
+  43   1      	uint8_t recv_array[1];
+  44   1          uint8_t internal_addr; // address fro config file
+  45   1      	uint8_t timeout;
+  46   1      	uint8_t status; // variable to hold error
+  47   1          uint16_t index = 0;
+  48   1          
+  49   1          do 
+  50   1      	{
+  51   2              timeout = 50; // simple timeout
+  52   2              internal_addr = config_array[index];
+  53   2              ++index;
+  54   2              send_array[0] = config_array[index]; // data to set to address from config file
+  55   2              ++index;
+C51 COMPILER V6.02  STA013                                                                 12/08/2019 19:04:44 PAGE 2   
 
-  56   2              ++index;
-  57   2              send_array[0] = config_array[index]; // data to set to address from config file
-  58   2              ++index;
-  59   2              do
-  60   2      		{
-  61   3                  status = I2C_write(device_addr, internal_addr, 1, 1, send_array);
-  62   3                  --timeout;
-  63   3              } while ((status != no_errors) && (timeout != 0));
-  64   2      		I2C_read(device_addr, internal_addr,1,1,recv_array);
-  65   2          } while ((internal_addr != 0xFF) && (timeout != 0)); // 0xFF is the end of the config file
-  66   1          return status;
-  67   1      }
+  56   2              do
+  57   2      		{
+  58   3                  status = I2C_write(device_addr, internal_addr, 1, 1, send_array);
+  59   3                  --timeout;
+  60   3              } while ((status != no_errors) && (timeout != 0));
+  61   2      		I2C_read(device_addr, internal_addr,1,1,recv_array);
+  62   2          } while ((internal_addr != 0xFF) && (timeout != 0)); // 0xFF is the end of the config file
+  63   1          return status;
+  64   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    226    ----
-   CONSTANT SIZE    =     26    ----
+   CODE SIZE        =    289    ----
+   CONSTANT SIZE    =    161    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----      19

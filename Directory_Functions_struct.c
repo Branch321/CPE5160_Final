@@ -307,35 +307,35 @@ uint8_t Mount_Drive(uint8_t xdata * array_name)
 			printf("BPB Found!\r\n");
 		}
 	}
-	print_memory(array_name, 512);
+	//print_memory(array_name, 512);
 	Drive_values.BytesPerSec = read16(0x0B,array_name);
-	printf("BytesPerSec:: %x\r\n",Drive_values.BytesPerSec);
+	//printf("BytesPerSec:: %x\r\n",Drive_values.BytesPerSec);
 	Drive_values.SecPerClus = read8(0x0D,array_name);
-	printf("SecPerClus:: %bx\r\n",Drive_values.SecPerClus);
+	//printf("SecPerClus:: %bx\r\n",Drive_values.SecPerClus);
 	RsvdSectorCount = read16(0x0E,array_name);
-	printf("RsvdSectorCount:: %x\r\n",RsvdSectorCount);
+	//printf("RsvdSectorCount:: %x\r\n",RsvdSectorCount);
 	NumFATS = read8(0x10,array_name);
-	printf("NumFATS:: %bx\r\n",NumFATS);
+	//printf("NumFATS:: %bx\r\n",NumFATS);
 	RootEntryCnt = read16(0x11,array_name);
-	printf("RootEntryCnt:: %x\r\n",RootEntryCnt);
+	//printf("RootEntryCnt:: %x\r\n",RootEntryCnt);
 	TotalSectors16 = read16(0x13,array_name);
-	printf("TotalSectors16:: %x\r\n",TotalSectors16);
+	//printf("TotalSectors16:: %x\r\n",TotalSectors16);
 	FATsz16 = read16(0x16,array_name);
-	printf("FATsz16:: %x\r\n",FATsz16);
+	//printf("FATsz16:: %x\r\n",FATsz16);
 	TotalSectors32 = read32(0x20,array_name);
-	printf("TotalSectors32:: %lx\r\n",TotalSectors32);
+	//printf("TotalSectors32:: %lx\r\n",TotalSectors32);
 	FATsz32 = read32(0x24,array_name);
-	printf("FATsz32:: %lx\r\n",FATsz32);
+	//printf("FATsz32:: %lx\r\n",FATsz32);
 	RootCluster = read32(0x2C, array_name);
-	printf("RootCluster:: %lx\r\n",RootCluster);
+	//printf("RootCluster:: %lx\r\n",RootCluster);
 	Drive_values.StartofFAT = RsvdSectorCount + RelativeSectors;
-	printf("StartofFAT:: %lx\r\n",Drive_values.StartofFAT);
+	//printf("StartofFAT:: %lx\r\n",Drive_values.StartofFAT);
 	Drive_values.RootDirSecs = ((RootEntryCnt*32) + (Drive_values.BytesPerSec-1))/Drive_values.BytesPerSec;
-	printf("RootDirSecs:: %lx\r\n",Drive_values.RootDirSecs);
+	//printf("RootDirSecs:: %lx\r\n",Drive_values.RootDirSecs);
 	Drive_values.FirstDataSec = RsvdSectorCount + (NumFATS*FATsz32) + Drive_values.RootDirSecs + RelativeSectors;
-	printf("FirstDataSec:: %lx\r\n",Drive_values.FirstDataSec);
+	//printf("FirstDataSec:: %lx\r\n",Drive_values.FirstDataSec);
 	Drive_values.FirstRootDirSec = ((RootCluster-2)*Drive_values.SecPerClus)+Drive_values.FirstDataSec;
-	printf("FirstRootDirSec:: %lx\r\n",Drive_values.FirstRootDirSec);
+	//printf("FirstRootDirSec:: %lx\r\n",Drive_values.FirstRootDirSec);
 	Drive_values.FATshift = FAT32_shift;
 
 	//Checks FAT Size to use
@@ -376,7 +376,7 @@ uint8_t Mount_Drive(uint8_t xdata * array_name)
 		//FAT32
 		Drive_values.FATtype = FAT32;
 	}
-	printf("FATtype Detected: %x\r\n", Drive_values.FATtype);
+	//printf("FATtype Detected: %x\r\n", Drive_values.FATtype);
 	return error_flag;
 }
 
@@ -411,37 +411,18 @@ uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
 	uint8_t error_flag = no_errors;
 	uint32_t sector_num;
 	uint32_t first_sec_num;
-	uint32_t user_input;
-	uint8_t first = 0;
 
 	do
 	{
-		printf("1. Continue to next cluster\r\n2. Back to main menu\r\nInput Entry #: ");
-		user_input = long_serial_input();
-		if(user_input == 1)
+		first_sec_num = First_Sector(Cluster);
+		sector_num = first_sec_num;
+		while(sector_num!=Drive_values.SecPerClus+first_sec_num)
 		{
-			first_sec_num = First_Sector(Cluster);
-			sector_num = first_sec_num;
-			while(sector_num!=Drive_values.SecPerClus+first_sec_num)
-			{
-				error_flag = Read_Sector(sector_num,Drive_values.BytesPerSec, array_in);
-				printf("Cluster # = %lx ,Sector # = %lx\r\n", Cluster, sector_num);
-				//Checks if its the first sector of the file
-				if (first == 0)
-				{
-					print_memory(array_in, Drive_values.BytesPerSec);
-				}
-				sector_num++;
-				first = 1;
-			}
-			Cluster = Find_Next_Clus(Cluster,array_in);
+			error_flag = Read_Sector(sector_num,Drive_values.BytesPerSec, array_in);
+			sector_num++;
 		}
-		else
-		{
-			printf("Quitting...\r\n");
-		}
-	}while( user_input == 1 && Cluster!=0x0FFFFFFF);
-	printf("Cluster number: %lx \r\n", Cluster);
+		Cluster = Find_Next_Clus(Cluster,array_in);
+	}while(Cluster!=0x0FFFFFFF);
 	return error_flag;
 }
 

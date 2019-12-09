@@ -1,4 +1,4 @@
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 1   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 1   
 
 
 C51 COMPILER V6.02, COMPILATION OF MODULE I2C
@@ -34,12 +34,12 @@ stmt level    source
   25   1      	// Check for ack or nack
   26   1      	if(response_bit != 1)
   27   1      	{
-  28   2      		printf("Received Ack...\r\n");
+  28   2      		//printf("Received Ack...\r\n");
   29   2      		return ACK;
   30   2      	}
   31   1      	else
   32   1      	{
-  33   2      		printf("Received Nack...\r\n");
+  33   2      		//printf("Received Nack...\r\n");
   34   2      		return NACK;
   35   2      	}
   36   1      }
@@ -58,11 +58,11 @@ stmt level    source
   48   1      	// Send an internal address if there is one
   49   1      	if(int_size>0)
   50   1      	{
-  51   2      		printf("Sending an internal address for a read");
+  51   2      		//printf("Sending an internal address for a read");
   52   2      		return_value = I2C_write(device_addr,internal_addr, int_size,0,0);
-  53   2      		printf("Done sending an internal address for a read");
+  53   2      		//printf("Done sending an internal address for a read");
   54   2      	}
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 2   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 2   
 
   55   1      
   56   1      	// Default both SDA and SCL to 1
@@ -80,7 +80,7 @@ stmt level    source
   68   2      		index = 0;
   69   2      		
   70   2      		//send device addr
-  71   2      		printf("Sending device addr.\r\n");
+  71   2      		//printf("Sending device addr.\r\n");
   72   2      		num_bits = 8;
   73   2      		do
   74   2      		{
@@ -126,7 +126,7 @@ stmt level    source
  114   4      			}while(num_bits!=0);
  115   3      			// Store the byte in the array buffer
  116   3      			*(store_data_arr+index) = recv_value;
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 3   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 3   
 
  117   3      			index++;
  118   3      			num_bytes--;
@@ -190,7 +190,7 @@ stmt level    source
  176   1      	TL1 = I2C_RELOAD_L;
  177   1      	TF1 = 0;
  178   1      	TR1 = 1;
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 4   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 4   
 
  179   1      }
  180          
@@ -220,7 +220,7 @@ stmt level    source
  203   2      		num_bits = 8;
  204   2      
  205   2      		// Send Device Address
- 206   2      		printf("Sending Device addr..\r\n");
+ 206   2      		//printf("Sending Device addr..\r\n");
  207   2      		do
  208   2      		{
  209   3      			I2C_clock_delay(Continue);
@@ -239,7 +239,7 @@ stmt level    source
  222   4      				return_value=bus_busy_error;
  223   4      			}
  224   3      		}while((num_bits!=0)&&(return_value==no_errors));
- 225   2      		printf("Device Addr. Sent\r\n");
+ 225   2      		//printf("Device Addr. Sent\r\n");
  226   2      		//Wait for ACK/NACK
  227   2      		if(Ack_check() != ACK)
  228   2      		{
@@ -251,10 +251,10 @@ stmt level    source
  234   3      			num_bits = 8;
  235   3      			send_val = int_addr;
  236   3      			//Send Internal Address
- 237   3      			printf("Sending internal Address..\r\n");
+ 237   3      			//printf("Sending internal Address..\r\n");
  238   3      			do
  239   3      			{
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 5   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 5   
 
  240   4      				I2C_clock_delay(Continue);
  241   4      				SCL = 0; // Pull clock low to transition to new bit
@@ -271,7 +271,7 @@ stmt level    source
  252   5      					return_value=bus_busy_error;
  253   5      				}
  254   4      			}while((num_bits!=0)&&(return_value==no_errors));
- 255   3      			printf("Internal Address Sent...\r\n");
+ 255   3      			//printf("Internal Address Sent...\r\n");
  256   3      			//Wait for ACK/NACK
  257   3      			if(Ack_check() != ACK)
  258   3      			{
@@ -282,7 +282,7 @@ stmt level    source
  263   2      		//Data Send, ACK Check Cycle
  264   2      		while((num_bytes > 0)&&(return_value == no_errors))
  265   2      		{
- 266   3      			printf("Sending one byte...\r\n");
+ 266   3      			//printf("Sending one byte...\r\n");
  267   3      			num_bits = 8;
  268   3      			send_val = *(send_data_arr+index);
  269   3      			do
@@ -303,7 +303,7 @@ stmt level    source
  284   5      					return_value=bus_busy_error;
  285   5      				}
  286   4      			}while((num_bits!=0)&&(return_value==no_errors));
- 287   3      			printf("Byte Sent:: %2.2bX \r\n", send_val);
+ 287   3      			//printf("Byte Sent:: %2.2bX \r\n", send_val);
  288   3      			num_bytes--;
  289   3      			index++;
  290   3      			
@@ -313,12 +313,12 @@ stmt level    source
  294   4      				return ack_error;
  295   4      			}
  296   3      		}
- 297   2      		printf("All bytes sent...\r\n");
+ 297   2      		//printf("All bytes sent...\r\n");
  298   2      	}
  299   1      	// stop condition
  300   1      	if(return_value!=bus_busy_error)
  301   1      	{
-C51 COMPILER V6.02  I2C                                                                    12/06/2019 17:58:43 PAGE 6   
+C51 COMPILER V6.02  I2C                                                                    12/08/2019 19:04:44 PAGE 6   
 
  302   2      		I2C_clock_delay(Continue);
  303   2      		SCL=0;
@@ -334,8 +334,8 @@ stmt level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    802    ----
-   CONSTANT SIZE    =    307    ----
+   CODE SIZE        =    688    ----
+   CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----      30

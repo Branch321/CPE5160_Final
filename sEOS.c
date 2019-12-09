@@ -30,9 +30,9 @@ void sEOS_init(uint8_t interval) {
     RCAP2L = reload_8L;
     
 	TF2 = 0;
+	EA = 1; // enable interrupts globally
     ET2 = 1; // enable timer 2 interrupt
-    EA = 1; // enable interrupts globally
-	TR2 = 1; // start timer 2 interrupt
+	TR2 = 1; // start timer 2 interrupt   
 }
 
 void go_to_sleep(void) {

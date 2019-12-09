@@ -1,0 +1,191 @@
+C51 COMPILER V6.02  MP3                                                                    12/08/2019 19:04:45 PAGE 1   
+
+
+C51 COMPILER V6.02, COMPILATION OF MODULE MP3
+OBJECT MODULE PLACED IN .\MP3.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE .\MP3.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include "MP3.h"
+   2          #include "Directory_Functions_struct.h"
+   3          #include "sEOS.h"
+   4          #include "main.h"
+   5          #include "PORT.H"
+   6          #include "Read_Sector.h"
+   7          #include "SPI.h"
+   8          
+   9          #define send_data_1 0 //same as below
+  10          #define data_send_1 0 // same as above //need to combine
+  11          #define data_idle_1 1
+  12          #define locate_cluster_2 2
+  13          #define load_buf_2 3
+  14          #define data_send_2 4
+  15          #define load_buf_1 5
+  16          #define data_idle_2 6
+  17          #define locate_cluster_1 7
+  18          
+  19          sbit BIT_EN = P1^3;
+  20          sbit DATA_REQ = P1^2;
+  21          
+  22          xdata uint8_t buffer1[512];
+  23          xdata uint8_t buffer2[512];
+  24          
+  25          FS_values_t * Drive_p;
+  26          uint32_t idata cluster_g;
+  27          uint32_t idata sector_g;
+  28          uint32_t idata num_sectors_g;
+  29          uint32_t idata index1_g;
+  30          uint32_t idata index2_g;
+  31          uint8_t idata play_state_g;
+  32          uint8_t idata play_status_g;
+  33          
+  34          void Play_MP3_file(uint32_t begin_cluster)
+  35          {
+  36   1      	Drive_p = Export_Drive_values();
+  37   1      	cluster_g = begin_cluster;
+  38   1      	sector_g = First_Sector(begin_cluster);
+  39   1      	Read_Sector((sector_g+num_sectors_g),(Drive_p->BytesPerSec),buffer1);
+  40   1      	num_sectors_g++;
+  41   1      	index1_g=0;
+  42   1      	Read_Sector((sector_g+num_sectors_g),(Drive_p->BytesPerSec),buffer2);
+  43   1      	num_sectors_g++;
+  44   1      	index2_g=0;
+  45   1      
+  46   1      	play_state_g=send_data_1;
+  47   1      	play_status_g=1;
+  48   1      	sEOS_init(12);
+  49   1      	while(1)
+  50   1      	{
+  51   2      		if(play_status_g==0)
+  52   2      		{
+  53   3      			TR2=0;
+  54   3      			break;
+  55   3      		}
+C51 COMPILER V6.02  MP3                                                                    12/08/2019 19:04:45 PAGE 2   
+
+  56   2      		else
+  57   2      		{
+  58   3      			PCON|=0x01;
+  59   3      		}
+  60   2      	}
+  61   1      }
+  62          
+  63          void MP3_Player_ISR(void) interrupt Timer_2_Overflow
+  64          {
+  65   1      	uint8_t temp8;
+  66   1      
+  67   1      	TF2 = 0;
+  68   1      
+  69   1      	//start timeout here
+  70   1      
+  71   1      	switch(play_state_g)
+  72   1      	{
+  73   2      		case data_idle_1:
+  74   2      		{
+  75   3      			if(DATA_REQ==0)
+  76   3      			{
+  77   4      				play_state_g = data_send_1;
+  78   4      			}
+  79   3      			break;
+  80   3      		}
+  81   2      		case data_send_1:
+  82   2      		{
+  83   3      			while((DATA_REQ==0)&&(TF0==0))
+  84   3      			{
+  85   4      				BIT_EN=1;
+  86   4      				SPI_Transfer(buffer1[index1_g],&temp8);
+  87   4      				BIT_EN=0;
+  88   4      				index1_g++;
+  89   4      				if(index1_g>511)
+  90   4      				{
+  91   5      					if(index2_g>511)
+  92   5      					{
+  93   6      						if(num_sectors_g==(Drive_p->SecPerClus))
+  94   6      						{
+  95   7      							play_state_g = locate_cluster_2;
+  96   7      						}
+  97   6      						else
+  98   6      						{
+  99   7      							play_state_g=load_buf_2;
+ 100   7      						}
+ 101   6      					}
+ 102   5      					else
+ 103   5      					{
+ 104   6      						play_state_g=data_send_2;
+ 105   6      					}
+ 106   5      
+ 107   5      				}
+ 108   4      			}
+ 109   3      			if((DATA_REQ==1)&&(play_state_g==send_data_1))
+ 110   3      			{
+ 111   4      				if(index2_g>511)
+ 112   4      				{
+ 113   5      					if(num_sectors_g==(Drive_p->SecPerClus))
+ 114   5      					{
+ 115   6      						play_state_g=locate_cluster_2;
+ 116   6      					}
+ 117   5      					else
+C51 COMPILER V6.02  MP3                                                                    12/08/2019 19:04:45 PAGE 3   
+
+ 118   5      					{
+ 119   6      						play_state_g=load_buf_2;
+ 120   6      					}
+ 121   5      				}
+ 122   4      				else
+ 123   4      				{
+ 124   5      					//play_state_g=update_lcd_1; //dont know about this one yet 
+ 125   5      				}
+ 126   4      			}
+ 127   3      			break;
+ 128   3      		}
+ 129   2      		case load_buf_1:
+ 130   2      		{
+ 131   3      			Read_Sector((sector_g+num_sectors_g),(Drive_p->BytesPerSec),buffer1);
+ 132   3      			num_sectors_g++;
+ 133   3      			index1_g=0;
+ 134   3      			play_state_g=data_idle_2;
+ 135   3      			break;
+ 136   3      		}
+ 137   2      		case load_buf_2:
+ 138   2      		{
+ 139   3      			Read_Sector((sector_g+num_sectors_g),(Drive_p->BytesPerSec),buffer2);
+ 140   3      			num_sectors_g++;
+ 141   3      			index2_g=0;
+ 142   3      			play_state_g=data_idle_1;
+ 143   3      			break;
+ 144   3      		}
+ 145   2      		case locate_cluster_1:
+ 146   2      		{
+ 147   3      			cluster_g = Find_Next_Clus(cluster_g,buffer1);
+ 148   3      			if(cluster_g!=0x0FFFFFFF)
+ 149   3      			{
+ 150   4      				sector_g = First_Sector(cluster_g);
+ 151   4      				num_sectors_g=0;
+ 152   4      				play_state_g=data_idle_2;
+ 153   4      			}
+ 154   3      			else
+ 155   3      			{
+ 156   4      				play_status_g=0;
+ 157   4      				play_state_g=data_idle_2;
+ 158   4      			}
+ 159   3      			break;
+ 160   3      		}
+ 161   2      	}//end of switch case
+ 162   1      }
+ 163          
+ 164          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    813    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   1024    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       5
+   IDATA SIZE       =     22    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

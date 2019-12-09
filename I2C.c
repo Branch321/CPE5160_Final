@@ -25,12 +25,12 @@ uint8_t Ack_Check(void)
 	// Check for ack or nack
 	if(response_bit != 1)
 	{
-		printf("Received Ack...\r\n");
+		//printf("Received Ack...\r\n");
 		return ACK;
 	}
 	else
 	{
-		printf("Received Nack...\r\n");
+		//printf("Received Nack...\r\n");
 		return NACK;
 	}
 }
@@ -48,9 +48,9 @@ uint8_t I2C_read(uint8_t device_addr, uint32_t internal_addr, uint8_t int_size, 
 	// Send an internal address if there is one
 	if(int_size>0)
 	{
-		printf("Sending an internal address for a read");
+		//printf("Sending an internal address for a read");
 		return_value = I2C_write(device_addr,internal_addr, int_size,0,0);
-		printf("Done sending an internal address for a read");
+		//printf("Done sending an internal address for a read");
 	}
 
 	// Default both SDA and SCL to 1
@@ -68,7 +68,7 @@ uint8_t I2C_read(uint8_t device_addr, uint32_t internal_addr, uint8_t int_size, 
 		index = 0;
 		
 		//send device addr
-		printf("Sending device addr.\r\n");
+		//printf("Sending device addr.\r\n");
 		num_bits = 8;
 		do
 		{
@@ -203,7 +203,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 		num_bits = 8;
 
 		// Send Device Address
-		printf("Sending Device addr..\r\n");
+		//printf("Sending Device addr..\r\n");
 		do
 		{
 			I2C_clock_delay(Continue);
@@ -222,7 +222,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 				return_value=bus_busy_error;
 			}
 		}while((num_bits!=0)&&(return_value==no_errors));
-		printf("Device Addr. Sent\r\n");
+		//printf("Device Addr. Sent\r\n");
 		//Wait for ACK/NACK
 		if(Ack_check() != ACK)
 		{
@@ -234,7 +234,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 			num_bits = 8;
 			send_val = int_addr;
 			//Send Internal Address
-			printf("Sending internal Address..\r\n");
+			//printf("Sending internal Address..\r\n");
 			do
 			{
 				I2C_clock_delay(Continue);
@@ -252,7 +252,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 					return_value=bus_busy_error;
 				}
 			}while((num_bits!=0)&&(return_value==no_errors));
-			printf("Internal Address Sent...\r\n");
+			//printf("Internal Address Sent...\r\n");
 			//Wait for ACK/NACK
 			if(Ack_check() != ACK)
 			{
@@ -263,7 +263,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 		//Data Send, ACK Check Cycle
 		while((num_bytes > 0)&&(return_value == no_errors))
 		{
-			printf("Sending one byte...\r\n");
+			//printf("Sending one byte...\r\n");
 			num_bits = 8;
 			send_val = *(send_data_arr+index);
 			do
@@ -284,7 +284,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 					return_value=bus_busy_error;
 				}
 			}while((num_bits!=0)&&(return_value==no_errors));
-			printf("Byte Sent:: %2.2bX \r\n", send_val);
+			//printf("Byte Sent:: %2.2bX \r\n", send_val);
 			num_bytes--;
 			index++;
 			
@@ -294,7 +294,7 @@ uint8_t I2C_write(uint8_t device_addr, uint32_t int_addr, uint8_t int_addr_sz, u
 				return ack_error;
 			}
 		}
-		printf("All bytes sent...\r\n");
+		//printf("All bytes sent...\r\n");
 	}
 	// stop condition
 	if(return_value!=bus_busy_error)
